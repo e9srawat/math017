@@ -1,7 +1,9 @@
-"""solvaer"""
+"""Math 017"""
+
+
 def converter(num):
     """
-    solva
+    returns the number of letters in a number written in words
     """
     wordlist = {
         0: "",
@@ -34,57 +36,47 @@ def converter(num):
         90: "NINETY",
     }
 
-    num = str(num)[::-1]
-
+    num = str(num)
     word = []
-    for i,j in enumerate(num):
-        if i == 0:
-            if int(num[:2][::-1]) in wordlist:
-                word.append(wordlist[int(num[:2][::-1])])
-            else:
-                word.append(wordlist[int(j)])
-                word.append(wordlist[int(num[i + 1]) * 10])
 
-        elif i == 2:
-            if num[i] == "0":
-                word.append("")
-            else:
-                if num[:2][::-1] != "00":
-                    word.append("AND")
-                word.append(wordlist[int(j)] + "HUNDRED")
+    word.append(wordlist[int(num[-1])])
 
-        elif i == 3:
-            if num[3:5] == "00":
-                word.append("")
-            elif int(num[3:5][::-1]) in wordlist:
-                word.append(wordlist[int(num[3:5][::-1])] + "THOUSAND")
-            else:
-                word.append(wordlist[int(j)] + "THOUSAND")
-                word.append(wordlist[int(num[i + 1]) * 10])
+    if len(num) >= 2 and int(num[-2:]) in wordlist:
+        word.remove(wordlist[int(num[-1])])
+        word.append(wordlist[int(num[-2:])])
+    elif len(num) >= 2:
+        word.append(wordlist[int(num[-2]) * 10])
 
-        elif i == 5:
-            if num[5:7] == "00":
-                word.append("")
-            elif int(num[5:7][::-1]) in wordlist:
-                word.append(wordlist[int(num[5:7][::-1])] + "LAKH")
-            else:
-                word.append(wordlist[int(j)] + "LAKH")
-                word.append(wordlist[int(num[i + 1]) * 10])
+    if len(num) >= 3 and num[-3] != "0":
+        if num[-2:] != "00":
+            word.append("AND")
+        word.append(wordlist[int(num[-3])] + "HUNDRED")
 
-        elif i == 7:
-            if int(num[7:9][::-1]) in wordlist:
-                word.append(wordlist[int(num[7:9][::-1])] + "CRORE")
-            else:
-                word.append(wordlist[int(j)] + "CRORE")
-                word.append(wordlist[int(num[i + 1]) * 10])
+    if len(num) >= 4 and int(num[-5:-3]) in wordlist and num[-5:-3] != "00":
+        print("yes")
+        word.append(wordlist[int(num[-5:-3])] + "THOUSAND")
+    elif len(num) >= 5 and num[-5:-3] != "00":
+        word.append(wordlist[int(num[-4])] + "THOUSAND")
+        word.append(wordlist[int(num[-5]) * 10])
+
+    if len(num) >= 6 and int(num[-7:-5]) in wordlist and num[-7:-5] != "00":
+        word.append(wordlist[int(num[-7:-5])] + "LAKH")
+    elif len(num) >= 6 and num[-7:-5] != "00":
+        word.append(wordlist[int(num[-6])] + "LAKH")
+        word.append(wordlist[int(num[-7]) * 10])
+
+    if len(num) >= 8 and int(num[-9:-7]) in wordlist:
+        word.append(wordlist[int(num[-9:-7])] + "CRORE")
+    elif len(num) >= 8:
+        word.append(wordlist[int(-8)] + "CRORE")
+        word.append(wordlist[int(num[-9]) * 10])
 
     return len("".join(reversed(word)))
 
 
-def solver():
+def solver(a, b):
     """
-    solver f
+    returns number of letters between
+    the numbers a and b if they are written in words
     """
-    a = 1
-    b = 1000
     return sum(converter(i) for i in range(a, b + 1))
