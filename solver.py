@@ -1,6 +1,7 @@
 """Math 017"""
 
 
+# Converter can only convert numbers upto 999999999
 def converter(num):
     """
     returns the number of letters in a number written in words
@@ -68,10 +69,10 @@ def converter(num):
     if len(num) >= 8 and int(num[-9:-7]) in wordlist:
         word.append(wordlist[int(num[-9:-7])] + "CRORE")
     elif len(num) >= 8:
-        word.append(wordlist[int(-8)] + "CRORE")
+        word.append(wordlist[int(num[-8])] + "CRORE")
         word.append(wordlist[int(num[-9]) * 10])
 
-    return len("".join(reversed(word)))
+    return "".join(reversed(word))
 
 
 def solver(a, b):
